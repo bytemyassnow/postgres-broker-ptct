@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 
 const app = express();
 const pool = new Pool({
-  connectionString: 'jdbc:postgresql://performance:E0BqxnU8OOLWiu5olnjcaw@ktb-pfm-core-5108.8nk.cockroachlabs.cloud:26257/sla?sslmode=verify-full',
+  connectionString: 'postgresql://performance:E0BqxnU8OOLWiu5olnjcaw@ktb-pfm-core-5108.8nk.cockroachlabs.cloud:26257/sla?sslmode=verify-full',
 });
 
 app.get('/query', async (req, res) => {
