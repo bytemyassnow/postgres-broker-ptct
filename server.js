@@ -1,23 +1,29 @@
-const express = require('express');
+const http = require('http');
 const { Pool } = require('pg');
 
-const app = express();
-const pool = new Pool({
-  connectionString: 'postgresql://performance@ktb-pfm-core-5108.8nk.cockroachlabs.cloud:26257/sla?sslmode=verify-full',
-});
+const server = http.createServer(async (req, res) => {
+  if (req.url === '/query') {
+    const query = req.headers.query; // Read the query from request headers
 
-app.get('/query', async (req, res) => {
-  const query = req.query.q;
+    try {
+      const pool = new Pool({
+        connectionString: 'postgresql://performance@ktb-pfm-core-5108.8nk.cockroachlabs.cloud:26257/sla?sslmode=verify-full',
+      });
 
-  try {
-    const result = await pool.query(query);
-    res.json(result.rows);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+      const result = await pool.query(query);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result.rows));
+    } catch (error) {
+      res.writeHead(500, { 'Content-Type': 'text/plain' });
+      res.end('Internal Server Error');
+    }
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
   }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 26257;
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
