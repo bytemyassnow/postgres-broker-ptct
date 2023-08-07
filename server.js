@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 
 const server = http.createServer(async (req, res) => {
   if (req.url === '/query') {
-    const query = req.headers.query; // Read the query from request headers
+    const query = req.headers.query;
 
     try {
       const pool = new Pool({
