@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/bytemyassnow/postgres-broker-ptct/issues"
   },
-  "homepage": "https://github.com/bytemyassnow/postgres-broker-ptct#readme"
+  "homepage": "https://github.com/bytemyassnow/postgres-broker-ptct#readme",
+  "dependencies": {
+    "pg": "^8.11.2"
+  }
 }
